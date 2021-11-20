@@ -24,11 +24,14 @@ public class Main {
             }
 
             current_state = scanner.nextInt();
-            System.out.println("The machine gives: " + machine_state + "\n" +
-                    "The result is: " + whoWins(current_state, machine_state));
+            System.out.println(
+                    "You give: " + stateToString(current_state) + "\n" +
+                    "The machine gives: " + stateToString(machine_state) + "\n" +
+                    "The result is: " + whoWins(current_state, machine_state)
+            );
 
             if (round != 1) {
-                System.out.println("The machine guessed that you would give " + guess_state);
+                System.out.println("The machine guessed that you would give: " + stateToString(guess_state));
                 count[pre_state][current_state]++;
             }
 
@@ -61,5 +64,17 @@ public class Main {
             }
         }
         return index;
+    }
+
+    public static String stateToString(int state) {
+        switch (state) {
+            case 0:
+                return "rock";
+            case 1:
+                return "paper";
+            case 2:
+                return "scissors";
+        }
+        return "illegal input";
     }
 }
