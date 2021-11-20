@@ -3,14 +3,14 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         int round = 1;
-
-        Random random = new Random();
         int pre_state = 0, current_state, machine_state, guess_state = 0; // 0: rock; 1: paper; 2: scissors
+        int human_win = 0, tie = 0, machine_win = 0;
 
         int [][] tpm = new int[3][3]; // TPM: Transition Probability Matrix
         int [][] count = new int[3][3]; // count the amount of the occurrence of each state
 
         Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
         while (true) {
             System.out.println("\nRound " + round +
                     "\nPlease enter one of the followings as your choice: 0: rock; 1: paper; 2: scissors");
@@ -34,6 +34,22 @@ public class Main {
                 System.out.println("The machine guessed that you would give: " + stateToString(guess_state));
                 count[pre_state][current_state]++;
             }
+
+            switch (whoWins(current_state, machine_state)) {
+                case "you win":
+                    human_win++;
+                    break;
+                case "tie":
+                    tie++;
+                    break;
+                case "machine wins":
+                    machine_win++;
+                    break;
+            }
+            System.out.println(
+                    "The amount of times that you win, tie, and the machine wins are: " +
+                            human_win + ", " + tie + ", " + machine_win
+            );
 
             pre_state = current_state;
             round++;
