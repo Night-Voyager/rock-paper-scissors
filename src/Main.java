@@ -5,22 +5,34 @@ public class Main {
         int round = 1;
 
         Random random = new Random();
-        int pre_state, current_state, machine_state; // 0: rock; 1: paper; 2: scissors
+        int pre_state = 0, current_state, machine_state, guess_state = 0; // 0: rock; 1: paper; 2: scissors
 
         int [][] tpm = new int[3][3]; // TPM: Transition Probability Matrix
         int [][] count = new int[3][3]; // count the amount of the occurrence of each state
 
-        machine_state = random.nextInt(3);
-//        System.out.println(machine_state);
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("\nRound " + round +
                     "\nPlease enter one of the followings as your choice: 0: rock; 1: paper; 2: scissors");
+
+            if (round == 1) {
+                machine_state = random.nextInt(3);
+            }
+            else {
+                guess_state = indexOfMaxValue(count[pre_state]);
+                machine_state = (guess_state + 1) % 3;
+            }
+
             current_state = scanner.nextInt();
-            machine_state = random.nextInt(3);
             System.out.println("The machine gives: " + machine_state + "\n" +
                     "The result is: " + whoWins(current_state, machine_state));
 
+            if (round != 1) {
+                System.out.println("The machine guessed that you would give " + guess_state);
+                count[pre_state][current_state]++;
+            }
+
+            pre_state = current_state;
             round++;
         }
     }
@@ -38,5 +50,16 @@ public class Main {
         if (human_state - machine_state == 1 || human_state - machine_state == -2) return "you win";
 
         return "machine wins";
+    }
+
+    public static int indexOfMaxValue(int [] array) {
+        int i=0, index=i, value=array[0];
+        for (; i<array.length; i++) {
+            if (array[i] > value) {
+                index = i;
+                value = array[i];
+            }
+        }
+        return index;
     }
 }
